@@ -3,6 +3,7 @@ __pycache__/
 *.pyc
 *.pyo
 *.pyd
+*.spec
 
 # Caches
 .pytest_cache/
@@ -16,8 +17,8 @@ env/
 .env/
 
 # Distribution / packaging
-build/
-dist/
+bot/build/
+bot/dist/
 *.egg-info/
 pip-wheel-metadata/
 
@@ -37,3 +38,9 @@ Thumbs.db
 
 # Secrets and local configuration
 .env
+
+# Node
+node_modules/
+ui/dist/
+ui/out/
+.DS_Store
