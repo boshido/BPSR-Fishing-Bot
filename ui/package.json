@@ -1,0 +1,39 @@
+{
+  "name": "bpsr-fishingbot-ui",
+  "productName": "BPSR Fishing Bot",
+  "version": "1.0.0",
+  "description": "Interface para o Bot de Pesca BPSR",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hyuse98/BPSR-Fishing-Bot.git"
+  },
+  "author": "Hyuse",
+  "license": "GNU",
+  "devDependencies": {
+    "electron": "38.0.0-beta.6",
+    "electron-builder": "^25.1.8"
+  },
+  "build": {
+    "appId": "com.bpsr.fishingbot",
+    "win": {
+      "target": "nsis",
+      "icon": "resources/icon.ico"
+    },
+    "files": [
+      "**/*",
+      "!resources/executables/*"
+    ],
+    "extraResources": [
+      {
+        "from": "resources/executables",
+        "to": "executables",
+        "filter": ["**/*"]
+      }
+    ]
+  }
+}

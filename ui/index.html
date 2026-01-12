@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BPSR Fishing Bot</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="container">
+    <header>
+        <h1>🎣 BPSR Fishing Bot</h1>
+        <div id="status-indicator" class="status stopped">PARADO</div>
+    </header>
+
+    <div class="controls">
+        <button id="btnStart" class="btn primary">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+            INICIAR
+        </button>
+        <button id="btnStop" class="btn danger" disabled>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M6 6h12v12H6z"/></svg>
+            PARAR
+        </button>
+    </div>
+
+    <div class="console-wrapper">
+        <div class="console-header">Terminal de Logs</div>
+        <div id="logs" class="console-output">
+            <div class="log-entry system">Bem-vindo ao BPSR Fishing Bot Manager.</div>
+            <div class="log-entry system">Clique em 'Iniciar' para carregar o bot Python...</div>
+        </div>
+    </div>
+</div>
+
+<script src="renderer.js"></script>
+</body>
+</html>
