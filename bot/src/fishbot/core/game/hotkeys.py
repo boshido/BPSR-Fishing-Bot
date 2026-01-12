@@ -1,7 +1,7 @@
 import keyboard
 import multiprocessing
-from src.fishbot.utils.logger import log
-from src.fishbot.utils.roi_visualizer import main as show_roi_visualizer
+from bot.src.fishbot.utils.logger import log
+from bot.src.fishbot.utils.roi_visualizer import main as show_roi_visualizer
 
 class Hotkeys:
     def __init__(self, bot):

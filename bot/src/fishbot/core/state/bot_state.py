@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 
 from ..bot_component import BotComponent
-from src.fishbot.config.screen_config import ScreenConfig
+from bot.src.fishbot.config.screen_config import ScreenConfig
 
 
 class BotState(BotComponent, ABC):

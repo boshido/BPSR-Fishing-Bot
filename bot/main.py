@@ -1,8 +1,8 @@
 import time
 
-from src.fishbot.core.fishing_bot import FishingBot
-from src.fishbot.core.game.hotkeys import Hotkeys
-from src.fishbot.utils.logger import log
+from bot.src.fishbot.core.fishing_bot import FishingBot
+from bot.src.fishbot.core.game import Hotkeys
+from bot.src.fishbot.utils import log
 
 
 def main():

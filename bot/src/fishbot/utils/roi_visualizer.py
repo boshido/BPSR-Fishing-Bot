@@ -2,11 +2,11 @@ import sys
 import multiprocessing
 from PyQt6.QtWidgets import QApplication, QWidget
 from PyQt6.QtGui import QPainter, QColor, QPen, QFont
-from PyQt6.QtCore import Qt, QRect
+from PyQt6.QtCore import Qt
 
 # Imports detection settings from your project
-from src.fishbot.config.detection_config import DetectionConfig
-from src.fishbot.config.screen_config import ScreenConfig
+from bot.src.fishbot.config.detection_config import DetectionConfig
+from bot.src.fishbot.config.screen_config import ScreenConfig
 
 class RoiVisualizer(QWidget):
     def __init__(self):

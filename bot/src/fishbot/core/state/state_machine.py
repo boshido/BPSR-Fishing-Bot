@@ -1,6 +1,6 @@
 import time
 
-from src.fishbot.utils.logger import log
+from bot.src.fishbot.utils.logger import log
 from .state_type import StateType
 
 
