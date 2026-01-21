@@ -1,9 +1,12 @@
-from .screen_config import ScreenConfig
+try:
+    from .screen_config import ScreenConfig
+except ImportError:
+    from .screen_config_safe import ScreenConfig
 from .detection_config import DetectionConfig
+
 
 class BotConfig:
     def __init__(self):
-
         self.screen = ScreenConfig()
         self.detection = DetectionConfig()
 
@@ -13,7 +16,7 @@ class BotConfig:
             "CASTING_BAIT": 15,
             "WAITING_FOR_BITE": 25,
             "PLAYING_MINIGAME": 30,
-            "FINISHING": 10
+            "FINISHING": 10,
         }
 
         # Enable quick finish after the minigame
