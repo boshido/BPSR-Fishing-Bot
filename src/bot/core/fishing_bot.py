@@ -1,19 +1,19 @@
 import time
 
-from src.fishbot.config import Config
-from src.fishbot.core.game.controller import GameController
-from src.fishbot.core.game.detector import Detector
-from src.fishbot.core.interceptors.level_check_interceptor import LevelCheckInterceptor
-from src.fishbot.core.state.impl.casting_bait_state import CastingBaitState
-from src.fishbot.core.state.impl.checking_rod_state import CheckingRodState
-from src.fishbot.core.state.impl.finishing_state import FinishingState
-from src.fishbot.core.state.impl.playing_minigame_state import PlayingMinigameState
-from src.fishbot.core.state.impl.starting_state import StartingState
-from src.fishbot.core.state.impl.waiting_for_bite_state import WaitingForBiteState
-from src.fishbot.core.state.state_machine import StateMachine
-from src.fishbot.core.state.state_type import StateType
-from src.fishbot.core.stats import StatsTracker
-from src.fishbot.utils.logger import log
+from ..config import Config
+from .game.controller import GameController
+from .game.detector import Detector
+from .interceptors.level_check_interceptor import LevelCheckInterceptor
+from .state.impl.casting_bait_state import CastingBaitState
+from .state.impl.checking_rod_state import CheckingRodState
+from .state.impl.finishing_state import FinishingState
+from .state.impl.playing_minigame_state import PlayingMinigameState
+from .state.impl.starting_state import StartingState
+from .state.impl.waiting_for_bite_state import WaitingForBiteState
+from .state.state_machine import StateMachine
+from .state.state_type import StateType
+from .stats import StatsTracker
+from ...utils.logger import log
 
 
 class FishingBot:

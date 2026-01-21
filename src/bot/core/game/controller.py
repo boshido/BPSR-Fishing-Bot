@@ -2,7 +2,7 @@ import time
 
 import pyautogui as auto
 
-from src.fishbot.utils.logger import log
+from ...utils.logger import log
 
 
 class GameController:

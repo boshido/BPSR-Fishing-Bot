@@ -6,10 +6,9 @@ try:
 except ImportError:
     from .screen_config_safe import ScreenConfig
 from .detection_config import DetectionConfig
-from ..framework.registration import register_config
+# from ..framework.registration import register_config  # Removed to avoid circular import
 
 
-@register_config("fishing")
 class FishingConfig(BaseConfig):
     """Configuration for fishing bot"""
 

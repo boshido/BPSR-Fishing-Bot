@@ -1,7 +1,7 @@
 import time
 from typing import Dict, Any
 from ...framework.base_bot import BaseBot
-from ...framework.base_interceptor import BaseInterceptor
+from ...core.interceptors.base_interceptor import BaseInterceptor
 from ...framework.state_type import StateType
 from ...framework.registration import register_bot
 from ...config.fishing_config import FishingConfig
@@ -31,32 +31,52 @@ class FishingBot(BaseBot):
     def __init__(self, config: FishingConfig = None):
         # Use provided config or create default
         self.fishing_config = config or FishingConfig()
+        
+        # Check if this is just a temporary instance for getting description/config
+        self._temp_instance = (config is None)
 
-        # Initialize with a compatible config structure for now
-        # This maintains backward compatibility during migration
-        compatibility_config = self._create_compatibility_config(self.fishing_config)
+        if not self._temp_instance:
+            # Initialize with a compatible config structure for actual bot instances
+            compatibility_config = self._create_compatibility_config(self.fishing_config)
+            super().__init__(compatibility_config)
 
-        super().__init__(compatibility_config)
-
-        # Override config with our fishing-specific one
-        self.config = self.fishing_config
-
-        # Initialize components after config is set
-        self._init_components()
+            # Override config with our fishing-specific one
+            self.config = self.fishing_config
+        else:
+            # For temporary instances, just call super with minimal config
+            # This avoids loading templates unnecessarily
+            from ...framework.base_bot import BaseBot
+            BaseBot.__init__(self, self.fishing_config)
 
     def get_bot_type(self) -> str:
         return "fishing"
 
-    def _create_compatibility_config(self, fishing_config: FishingConfig) -> BaseConfig:
+    def _create_compatibility_config(self, fishing_config: FishingConfig):
         """Create a compatibility config for the base classes"""
-        compat_config = BaseConfig()
-        compat_config.debug_mode = fishing_config.debug_mode
-        compat_config.target_fps = fishing_config.target_fps
-        compat_config.default_delay = fishing_config.default_delay
-
-        # For backward compatibility, we'll use the existing BotConfig structure
-        # This ensures the existing detector and controller still work
-        return compat_config
+        # Create a simple object that has the expected structure
+        class CompatibilityConfig:
+            def __init__(self, fishing_config):
+                self.bot = type('BotConfig', (), {})()
+                self.bot.detection = fishing_config.detection
+                self.bot.screen = fishing_config.screen
+                self.bot.target_fps = fishing_config.target_fps
+                # Copy other needed attributes
+                self.debug_mode = fishing_config.debug_mode
+                self.target_fps = fishing_config.target_fps
+                self.default_delay = fishing_config.default_delay
+                self.fishing_config = fishing_config
+            
+            def get_template_path(self, name):
+                # Get template filename from detection config
+                if name in self.bot.detection.templates:
+                    filename = self.bot.detection.templates[name]
+                    # Construct full path using the templates path
+                    from pathlib import Path
+                    templates_path = Path(__file__).parent.parent.parent / "assets" / "templates"
+                    return templates_path / filename
+                return None
+        
+        return CompatibilityConfig(fishing_config)
 
     def _init_components(self) -> None:
         """Initialize components after config is properly set"""
@@ -73,15 +93,46 @@ class FishingBot(BaseBot):
 
     def _initialize_components(self) -> None:
         """Initialize fishing-specific components"""
-        # Add fishing-specific interceptors
-        self.level_check_interceptor = LevelCheckInterceptor(self, priority=100)
-        self.add_interceptor(self.level_check_interceptor)
+        # Only initialize for actual bot instances, not temporary ones
+        if hasattr(self, '_temp_instance') and self._temp_instance:
+            return
+
+        # Initialize core components first
+        self.detector = Detector(self.config)
+        self.controller = GameController(self.config)
+        self.state_machine = StateMachine(self)
+
+        # Stats tracking
+        self.stats = StatsTracker()
+        self.stats.add_stat("fish_caught")
+        self.stats.add_stat("fish_escaped")
+        self.stats.add_stat("rod_breaks")
+
+        # TODO: Fix interceptor type mismatch
+        # self.level_check_interceptor = LevelCheckInterceptor(self)
+        # self.add_interceptor(self.level_check_interceptor)
 
     def _register_states(self) -> None:
         """Register fishing states"""
+        # Only register states for actual bot instances
+        if hasattr(self, '_temp_instance') and self._temp_instance:
+            return
+
         self.state_machine.add_state(StateType.STARTING, FishingStartingState(self))
         self.state_machine.add_state(
             StateType.CHECKING_ROD, FishingCheckingRodState(self)
+        )
+        self.state_machine.add_state(
+            StateType.CASTING_BAIT, FishingCastingBaitState(self)
+        )
+        self.state_machine.add_state(
+            StateType.WAITING_FOR_BITE, FishingWaitingForBiteState(self)
+        )
+        self.state_machine.add_state(
+            StateType.PLAYING_MINIGAME, FishingPlayingMinigameState(self)
+        )
+        self.state_machine.add_state(
+            StateType.FINISHING, FishingFinishingState(self)
         )
         self.state_machine.add_state(
             StateType.CASTING_BAIT, FishingCastingBaitState(self)

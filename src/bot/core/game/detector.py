@@ -1,7 +1,7 @@
 import cv2 as cv
 import numpy as np
 
-from src.fishbot.utils.logger import log
+from ...utils.logger import log
 
 try:
     import mss

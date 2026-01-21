@@ -5,8 +5,8 @@ from PyQt6.QtGui import QPainter, QColor, QPen, QFont
 from PyQt6.QtCore import Qt, QRect
 
 # Imports detection settings from your project
-from src.fishbot.config.detection_config import DetectionConfig
-from src.fishbot.config.screen_config import ScreenConfig
+from ..config.detection_config import DetectionConfig
+from ..config.screen_config import ScreenConfig
 
 class RoiVisualizer(QWidget):
     def __init__(self):
